@@ -15,14 +15,57 @@
 	    var damage = null;
  	    let health = 50;
             let eHealth = 50;
+	    let player = 'yoshi';
+            function startGame() {
+	        var y = document.getElementById("charSelect");
+		y.style.display = "none";
+  		var x = document.getElementById("mainGame");
+		x.style.display = "none";
+  		if (x.style.display === "none") {
+    			x.style.display = "block";
+  		} else {
+    			x.style.display = "none";
+  		}
+	        player = '';
+		document.getElementById('myImage').src = 'yoshi.gif';
 
+	    }
+            function startGameryu() {
+	        var y = document.getElementById("charSelect");
+		y.style.display = "none";
+  		var x = document.getElementById("mainGame");
+		x.style.display = "none";
+  		if (x.style.display === "none") {
+    			x.style.display = "block";
+  		} else {
+    			x.style.display = "none";
+  		}
+	        player = 'ryu';
+		document.getElementById('myImage').src = 'ryu.gif';
+	    }
+	    async function startGamesb(){
+	        var y = document.getElementById("charSelect");
+		y.style.display = "none";
+  		var x = document.getElementById("mainGame");
+		x.style.display = "none";
+  		if (x.style.display === "none") {
+    			x.style.display = "block";
+  		} else {
+    			x.style.display = "none";
+  		}
+	        player = 'sb';
+		document.getElementById('myImage').src = 'sb.gif';
+	    }
             function init() {
+	       var x = document.getElementById("mainGame");
+	       x.style.display = "none";
                imgObj = document.getElementById('myImage');
                imgObj.style.position= 'relative'; 
                imgObj.style.left = '0px'; 
 	       enemyObj = document.getElementById('enemyImage');
 	       enemyObj.style.position = 'relative';
 	       enemyObj.style.left = '100px';
+	
             }
 	    function youWin(){
 			document.getElementById('attack_btn').style.visibility = 'hidden';
@@ -72,11 +115,25 @@
 	    
             async function moveRight() {
 	       document.getElementById('attack_btn').style.visibility = 'hidden';
-	       for (let i=0;i<25;i++){
+	       if(player=='sb'){
+			document.getElementById('myImage').src = 'sb_move.gif';
+	       }
+	       else if(player=='ryu'){
+	                document.getElementById('myImage').src = 'ryu.gif';
+               }	 	
+	       for (let i=0;i<20;i++){
                    imgObj.style.left = parseInt(imgObj.style.left) + 20 + 'px';
                    await sleep(i * 10); 	
 	       }
-	       document.getElementById('myImage').src = 'yoshi_taunt.gif';
+	       if(player=='sb'){
+	       	document.getElementById('myImage').src = 'sb_attack.gif';
+	       }
+               else if(player=='ryu'){
+	       document.getElementById('myImage').src = 'ryu_attack.gif';
+               }
+	       else{	
+	        document.getElementById('myImage').src = 'yoshi_taunt.gif';
+	       }
 	       await sleep(1750);
  	       let damage =  Math.floor(Math.random() * 11);
 	       document.getElementById("damage_text").innerHTML = "You did " + damage + " damage!";
@@ -86,12 +143,27 @@
 	       		youWin();
  	   	        exit();
 	       }
-	       document.getElementById('myImage').src = 'yoshi_flip.gif';
-               for (let i=0;i<25;i++){
+	       if(player=='sb'){
+	       document.getElementById('myImage').src = 'sb_move.gif';
+	       }
+               else if(player=='ryu'){
+	       document.getElementById('myImage').src = 'ryu.gif';
+               }
+	       else{
+	        document.getElementById('myImage').src = 'yoshi_flip.gif';
+               }
+               for (let i=0;i<20;i++){
                    imgObj.style.left = parseInt(imgObj.style.left) + -20 + 'px';
                    await sleep(i * 10); 	
 	       }
-            document.getElementById('myImage').src = 'yoshi.gif';
+            if(player=='sb'){
+	     document.getElementById('myImage').src = 'sb.gif';
+            }
+            else if(player=='ryu'){
+	     document.getElementById('myImage').src = 'ryu.gif';
+            }else{
+	     document.getElementById('myImage').src = 'yoshi.gif';
+	    }
             document.getElementById("damage_text").innerHTML = "";
 	    enemyAttackPhase();
 	       
@@ -102,9 +174,29 @@
       </script>
    </head>
    
-   <body>   
+   <body> 
+      <div id="charSelect">
+      <h1>Select your character:</h1>
+      <button onclick="startGamesb()">
+      <img src="sb.gif"></img>	
+      </button>
+      <button onclick="startGame()">
+      <img src="goku.gif"></img>	
+      </button>
+      <button onclick="startGameryu()">
+      <img src="ryu.gif"></img>	
+      </button>      
+      <button onclick="startGame()">
+      <img src="yoshi.gif"></img>	
+      </button>
+      <button onclick="startGame()">
+      <img src="enemy.gif"></img>	
+      </button>
+      </div>
+	
+      <div id="mainGame">  
       <form>
-         <img id = "myImage" src = "yoshi.gif" />
+         <img id = "myImage"/>
 	 <img id = "enemyImage" src = "enemy.gif"/>
 	 <p></p>
 	 <p id = "damage_text"></p>
@@ -123,6 +215,7 @@
 		<p>Health:</p>
          	<p id = "enemyHealth">50</p>
 	 </div>
-      </form>      
+      </form>   
+      </div>   
    </body>
 </html>
