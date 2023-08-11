@@ -1,5 +1,5 @@
 # JS_fighting_game
-Testing animation features with JavaScript
+Testing animation features with JavaScript, may need to zoom out page to fit all images and text (to be fixed).
 
 <h1>What is it?</h1>
 <p>This is a small fighting game that makes use of simple animation</p>
