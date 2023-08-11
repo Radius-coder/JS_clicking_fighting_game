@@ -1,0 +1,128 @@
+<html>    
+   <style>
+	.button{
+		left: 30%;
+		border: none;
+		position: absolute;
+	}
+   </style>	
+   <head>
+      <title>JavaScript Animation</title>      
+      <script type = "text/javascript">
+         <!--
+            var imgObj = null;
+            var enemyObj = null;
+	    var damage = null;
+ 	    let health = 50;
+            let eHealth = 50;
+
+            function init() {
+               imgObj = document.getElementById('myImage');
+               imgObj.style.position= 'relative'; 
+               imgObj.style.left = '0px'; 
+	       enemyObj = document.getElementById('enemyImage');
+	       enemyObj.style.position = 'relative';
+	       enemyObj.style.left = '100px';
+            }
+	    function youWin(){
+			document.getElementById('attack_btn').style.visibility = 'hidden';
+			document.getElementById('enemyImage').src='';
+			document.getElementById('myImage').src='youwin.gif';
+                        document.getElementById('myImage').style.width='1280px';
+                        document.getElementById('myImage').style.height='720px';
+                        document.getElementById('myImage').style.left='0px';
+	    }
+	    function youLose(){
+			document.getElementById('attack_btn').style.visibility = 'hidden';
+			document.getElementById('enemyImage').src='';
+			document.getElementById('myImage').src='youlose.gif';
+                        document.getElementById('myImage').style.width='1280px';
+                        document.getElementById('myImage').style.height='720px';
+		        
+	    }
+
+            function sleep(ms){return new Promise(resolve => setTimeout(resolve, ms));}
+
+            async function enemyAttackPhase(){
+	       document.getElementById('enemyImage').src = 'enemy_move.gif';
+	       for (let i=0;i<25;i++){
+                   enemyObj.style.left = parseInt(enemyObj.style.left) + -20 + 'px';
+                   await sleep(i * 10); 	
+	       }
+	       document.getElementById('enemyImage').src = 'enemy_attack.gif';
+	       await sleep(1750);
+ 	       let damage =  Math.floor(Math.random() * 11);
+	       document.getElementById("damage_text").innerHTML = "You took " + damage + " damage!";
+	       document.getElementById("myHealth").innerHTML = health-damage;
+               health -= damage;
+	       if(health <= 0){
+			youLose();
+			exit();
+
+               }	
+	       document.getElementById('enemyImage').src = 'enemy_move_flip.gif';
+               for (let i=0;i<25;i++){
+                   enemyObj.style.left = parseInt(enemyObj.style.left) + 20 + 'px';
+                   await sleep(i * 10); 	
+	       }
+               document.getElementById("enemyImage").src = 'enemy.gif';
+               
+	    document.getElementById('attack_btn').style.visibility = 'visible';
+	    }
+	    
+            async function moveRight() {
+	       document.getElementById('attack_btn').style.visibility = 'hidden';
+	       for (let i=0;i<25;i++){
+                   imgObj.style.left = parseInt(imgObj.style.left) + 20 + 'px';
+                   await sleep(i * 10); 	
+	       }
+	       document.getElementById('myImage').src = 'yoshi_taunt.gif';
+	       await sleep(1750);
+ 	       let damage =  Math.floor(Math.random() * 11);
+	       document.getElementById("damage_text").innerHTML = "You did " + damage + " damage!";
+	       document.getElementById("enemyHealth").innerHTML = eHealth-damage;
+               eHealth -= damage;
+	       if(eHealth <= 0){
+	       		youWin();
+ 	   	        exit();
+	       }
+	       document.getElementById('myImage').src = 'yoshi_flip.gif';
+               for (let i=0;i<25;i++){
+                   imgObj.style.left = parseInt(imgObj.style.left) + -20 + 'px';
+                   await sleep(i * 10); 	
+	       }
+            document.getElementById('myImage').src = 'yoshi.gif';
+            document.getElementById("damage_text").innerHTML = "";
+	    enemyAttackPhase();
+	       
+	    }
+            
+            window.onload = init;
+         //-->
+      </script>
+   </head>
+   
+   <body>   
+      <form>
+         <img id = "myImage" src = "yoshi.gif" />
+	 <img id = "enemyImage" src = "enemy.gif"/>
+	 <p></p>
+	 <p id = "damage_text"></p>
+	 <div>
+         <button type = "button" class = "button" id = "attack_btn" value = "Attack!" onclick = "moveRight()";>
+         <img src="fight_btn.png"></img>
+	 </button>
+         </div>
+	 <p></p>
+         </br></br></br></br></br>
+	 <div style="float:left;margin-left:100px";>
+		<p>Health:</p>
+		<p id = "myHealth">50</p>
+	 </div>
+	 <div style="float:right;margin-right:450px;">
+		<p>Health:</p>
+         	<p id = "enemyHealth">50</p>
+	 </div>
+      </form>      
+   </body>
+</html>
